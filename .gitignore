@@ -45,3 +45,4 @@ instapk.log*
 
 # Upload to binary
 deploy.gradle
+deploy.properties
