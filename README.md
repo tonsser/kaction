@@ -1,4 +1,4 @@
-KAction - a port of [SwiftCommunity/Action](https://github.com/RxSwiftCommunity/Action)
+KAction - a port of [RxSwiftCommunity/Action](https://github.com/RxSwiftCommunity/Action)
 ======
 
 
@@ -19,7 +19,7 @@ Usage
 
 You have to pass a `workFactory` that takes input and returns an `Observable`. This represents some work that needs to be accomplished. Whenever you call `execute()`, you pass in input that's fed to the work factory. The `Action` will subscribe to the observable and emit the `Next` events on its `elements` property. If the observable errors, the error is sent as a `Next` even on the `errors` property. Neat.
 
-Actions can only execute one thing at a time. If you try to execute an action that's currently executing, you'll get an error. The `executing` property sends `true` and `false` values as `Next` events.
+KActions can only execute one thing at a time. If you try to execute an action that's currently executing, you'll get an error. The `executing` property sends `true` and `false` values as `Next` events.
 
 ```kotlin
 val kaction = KAction<String, Boolean>(input, {
@@ -71,7 +71,7 @@ implementation 'com.tonsser:kaction:0.0.1'
 
 Special Thanks
 --------------
-Once again to the guys over [SwiftCommunity/Action](https://github.com/RxSwiftCommunity/Action) for the inspiration
+Once again to the guys at [RxSwiftCommunity/Action](https://github.com/RxSwiftCommunity/Action) for the inspiration!
 
 ## Author
 
