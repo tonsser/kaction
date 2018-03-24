@@ -23,7 +23,7 @@ Actions can only execute one thing at a time. If you try to execute an action th
 
 ```kotlin
 val kaction = KAction<String, Boolean>(input, {
-    return@KAction networkLibrary.checkEmailExists(input)
+    networkLibrary.checkEmailExists(input)
 })
 ...
 kaction.execute("ash@ashfurrow.com")
@@ -37,7 +37,7 @@ You can also specify an `enabledIf` parameter to the `KAction` initializer.
 val isEmailValid: Observable<Boolean> = RxTextView.textChanges(emailTextView).map(this::isValidEmail())
 
 val kaction = KAction<String, Boolean>(input, {
-    return@KAction networkLibrary.checkEmailExists(input)
+    networkLibrary.checkEmailExists(input)
 }, isEmailValid)
 ```
 
@@ -48,25 +48,38 @@ Note that `enabledIf` isn't the same as the `enabled` property. You pass in `ena
 What's _really_ cool is the `Button` can be bound to the enabled state.
 
 ```kotlin
-kaction.enabled.subscribe { button.isEnabled = it }
-// The button executes the action but the enabled state is dependent on the action's state
+// The button executes the action 
 button.setOnClickListener { kaction.execute(input) }
+
+// But the enabled state is dependent on the action's state
+kaction.enabled.subscribe { button.isEnabled = it }
 ```
-_You can use even more cool Reactive shenanigans with [RxBinding](https://github.com/JakeWharton/RxBinding)_
 
 Now when the button is pressed, the action is executed. The button's `enabled` state is bound to the action's `enabled` property. That means you can feed your form-validation logic into the action as a signal, and your button's enabled state is handled for you. Also, the user can't press the button again before the action is done executing, since it only handles one thing at a time. Cool.
 
-##### Check the sample or create an issue 
+##### Don't forget to check the [sample](https://github.com/tonsser/kaction/blob/master/sample/src/main/java/com/tonsser/kaction/sample/MainActivity.kt)
 
 
 Download
 --------
 
-Just add the dependency to your gradle file:
+Add the dependency to your gradle file:
 
 ```groovy
-implementation 'com.tonsser.kaction:0.0.1'
+implementation 'com.tonsser:kaction:0.0.1'
 ```
+
+Special Thanks
+--------------
+Once again to the guys over [SwiftCommunity/Action](https://github.com/RxSwiftCommunity/Action) for the inspiration
+
+## Author
+
+**Joaquim Ley**, Android Engineer @ [Tonsser](https://github.com/tonsser)
+
+- [![GitHub](https://raw.githubusercontent.com/tonsser/Cirque/master/img/GitHub.png) joaquimley](https://github.com/joaquimley)
+- [![Twitter](https://raw.githubusercontent.com/tonsser/Cirque/master/img/Twitter.png) @joaquimley](https://twitter.com/joaquimley)
+
 
 License
 -------
