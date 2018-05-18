@@ -2,8 +2,10 @@ package com.tonsser.kaction
 
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.internal.disposables.CancellableDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.CancellationException
 
 class InvalidInput : Throwable("KAction input is null")
 class IsExecuting : Throwable("KAction is already executing")
@@ -29,6 +31,7 @@ class KAction<in InputType, OutputType> @JvmOverloads constructor(private val wo
     val enabled: PublishSubject<Boolean> = PublishSubject.create()
     val outputs: PublishSubject<OutputType> = PublishSubject.create()
     val errors: PublishSubject<Throwable> = PublishSubject.create()
+    val cancel: PublishSubject<Throwable> = PublishSubject.create()
 
     init {
         listenToInternalChanges()
@@ -47,6 +50,11 @@ class KAction<in InputType, OutputType> @JvmOverloads constructor(private val wo
         if (!isInputValid(input)) return
         if (isExecuting()) return
         executeWorkFactory(input)
+    }
+
+    fun cancel(exception: Throwable? = null){
+        enabled.onNext(false)
+        cancel.onNext(exception?:CancellationException())
     }
 
     private fun executeWorkFactory(input: InputType) {

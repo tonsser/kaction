@@ -35,18 +35,23 @@ class MainActivity : AppCompatActivity() {
 
         // Subscribe to outputs, set the text depending on the returned message
         compositeDisposable.add(sampleAction.outputs.subscribe {
-            message.text = it
+            message_tv.text = it
         })
 
         // Subscribe to errors
         compositeDisposable.add(sampleAction.errors.subscribe {
-            message.text = it.message
+            message_tv.text = it.message
         })
 
         // Subscribe to the executing state, this is where would normally attach a ProgressView's visibility to
         // a long running action.
         compositeDisposable.add(sampleAction.executing.subscribe {
             Toast.makeText(this, "Is executing $it", Toast.LENGTH_SHORT).show()
+        })
+
+        // Subscribe to cancel event
+        compositeDisposable.add(sampleAction.cancel.subscribe {
+            message_tv.text = it.message
         })
 
         // The BottomNavigationView will return execute the sampleAction with the id of the clicked item

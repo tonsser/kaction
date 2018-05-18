@@ -66,7 +66,7 @@ Download
 Add the dependency to your gradle file:
 
 ```groovy
-implementation 'com.tonsser:kaction:0.0.1'
+implementation 'com.tonsser:kaction:0.0.2'
 ```
 
 Special Thanks
